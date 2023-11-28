@@ -14,16 +14,14 @@ volume = 0.01  # range [0.0, 1.0]
 fs = 44100  # sampling rate, Hz, must be integer
 signal_length = 0.2  # in seconds, may be float
 f = 300.0  # sine frequency, Hz, may be float
+on_freq=500 # these are picked to be within supported telephone frequencies(300Hz - 3400Hz) but distinct
+off_freq = 2700
 
-note_frequencies = [300,600,900,1200,1500,1800,2100,2400,2700,3000]
 
 def freqToNote(freq: int):
     return (np.sin(
         2 * np.pi * np.arange(fs * signal_length) * freq / fs, 
     )).astype(np.float32)
-
-# def concat(a: np.ndarray[np.float32] ,b: np.ndarray[np.float32]):
-#     functools.reduce(lambda a,b: np.concatenate((a,b)), freqs_as_notes) 
 
 def stringToInts(string: str):
     ba = bitarray.bitarray()
@@ -45,26 +43,6 @@ u_as_note = stringToNotes("U")
 our_notes = stringToNotes(testString)
 notes_with_wakeup = np.concatenate((u_as_note, our_notes))
 
-# freqs_as_notes = map(lambda a: (volume * freqToNote(a)), notes)
-# freqs_as_notes_reversed = map(lambda a: (volume * freqToNote(a)), reversed(notes))
-
-# notes = functools.reduce(lambda a,b: np.concatenate((a,b)), freqs_as_notes)
-# notes_reversed = functools.reduce(lambda a,b: np.concatenate((a,b)), freqs_as_notes_reversed)
-
-# concat = np.concatenate((notes, notes_reversed, notes, notes_reversed))
-# generate samples, note conversion to float32 array
-# output_bytes = functools.reduce(lambda a,b: a+b, freqs_as_notes)
-# output_bytes_reversed = functools.reduce(lambda a,b: a+b, freqs_as_notes_reversed)
-
-# all_bytes = output_bytes + output_bytes_reversed + output_bytes + output_bytes_reversed
-
-# per @yahweh comment explicitly convert to bytes sequence
-# output_bytes = (volume * samples).tobytes() + (volume * sample2).tobytes()
-
-# for paFloat32 sample values must be in range [-1.0, 1.0]
-
-
-# play. May repeat with different volume values (if done interactively)
 if (play):
     output_bytes = notes_with_wakeup.tobytes()
     stream = p.open(format=pyaudio.paFloat32,
