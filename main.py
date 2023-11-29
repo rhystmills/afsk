@@ -8,11 +8,11 @@ import functools
 
 p = pyaudio.PyAudio()
 
-play = True
-testString = "av a washi"
+play = False
+testString = "some text"
 volume = 0.01  # range [0.0, 1.0]
 fs = 44100  # sampling rate, Hz, must be integer
-signal_length = 0.2  # in seconds, may be float
+signal_length = 0.05  # in seconds, may be float
 f = 300.0  # sine frequency, Hz, may be float
 on_freq=500 # these are picked to be within supported telephone frequencies(300Hz - 3400Hz) but distinct
 off_freq = 2700
@@ -39,9 +39,7 @@ def intsToNotes(ints: list[int]):
 def stringToNotes(str: str):
     return intsToNotes(stringToInts(str))
 
-u_as_note = stringToNotes("U")
 our_notes = stringToNotes(testString)
-notes_with_wakeup = np.concatenate((u_as_note, our_notes))
 
 if (play):
     output_bytes = notes_with_wakeup.tobytes()
@@ -55,7 +53,7 @@ if (play):
     stream.stop_stream()
     stream.close()
 
-wavfile.write('abc1.wav', fs, notes_with_wakeup)
+wavfile.write('pookmo.wav', fs, our_notes)
 
 
 
