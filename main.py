@@ -42,7 +42,7 @@ def stringToNotes(str: str):
 our_notes = stringToNotes(testString)
 
 if (play):
-    output_bytes = notes_with_wakeup.tobytes()
+    output_bytes = our_notes.tobytes()
     stream = p.open(format=pyaudio.paFloat32,
                 channels=1,
                 rate=fs,
